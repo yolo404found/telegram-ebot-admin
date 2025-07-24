@@ -1,11 +1,11 @@
 import { RouteObject } from 'react-router-dom';
-import { AdminLayout } from '../components/layout/AdminLayout';
+import { MainLayout } from '../components/layout/MainLayout';
 import { CategoryList } from '../pages/categories/list.page';
 
 export const categoryRoutes :RouteObject[] = [
   {
     path: '/categories',
-    element: <AdminLayout/>,
+    element: <MainLayout/>,
     children: [
       {
         index: true,

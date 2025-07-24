@@ -1,20 +1,50 @@
-import { AppBar, Toolbar, Button, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { AppBar, IconButton, Toolbar, Typography, styled } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
-export const AdminNavbar = () => {
+const StyledAppBar = styled(AppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: 200,
+    width: `calc(100% - ${200}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+interface AdminNavbarProps {
+  open: boolean;
+  handleDrawerOpen: () => void;
+}
+
+export const AdminNavbar = ({ open, handleDrawerOpen }: AdminNavbarProps) => {
   return (
-    <AppBar position="static">
+    <StyledAppBar position="fixed" open={open}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <IconButton
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          edge="start"
+          sx={{
+            marginRight: 5,
+            ...(open && { display: "none" }),
+          }}
+        >
+          <MenuIcon sx={{width:20,height:20}}/>
+        </IconButton>
+        <Typography variant="h6" noWrap component="div">
           Admin Dashboard
         </Typography>
-        <Button color="inherit" component={RouterLink} to="/admin">
-          Admins
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/admin/create">
-          Create Admin
-        </Button>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
